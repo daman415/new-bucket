@@ -36,6 +36,11 @@ class SekolahController extends Controller
     }
 
     public function sekolahProfileUpdate(Request $request){
+
+        $request->validate([
+            'photo' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+        ]);
+        
         $id = Auth::user()->id;
         $username = Auth::user()->username;
         $getUser = User::findOrFail($id);

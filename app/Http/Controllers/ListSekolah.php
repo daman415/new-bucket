@@ -33,6 +33,9 @@ class ListSekolah extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'photo' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+        ]);
         // Validasi data yang masuk
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
@@ -79,6 +82,9 @@ class ListSekolah extends Controller
      */
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'photo' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+        ]);
         // Validasi data yang masuk
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',

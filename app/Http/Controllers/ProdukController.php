@@ -34,7 +34,7 @@ class ProdukController extends Controller
     {
         $jurusans = Jurusan::all();
         $sekolah = User::where('role', 'sekolah')->get();
-        return view('admin.produk.produk-form', compact('jurusans','sekolah'));
+        return view('admin.produk.produk-form', compact('jurusans', 'sekolah'));
     }
 
     /**
@@ -42,10 +42,17 @@ class ProdukController extends Controller
      */
     public function store(Request $request)
     {
-            $photo = $request->file('photo');
-            $genNama = hexdec(uniqid()) . '.' . $photo->getClientOriginalExtension();
-            Image::make($photo)->resize(300, 300)->save('upload/produk/' . $genNama);
-            $save_url = 'upload/produk/' . $genNama;
+
+        $request->validate([
+            'photo' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'sertfikasi_haki' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'sertfikasi_halal' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'sertfikasi_sni' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+        ]);
+        $photo = $request->file('photo');
+        $genNama = hexdec(uniqid()) . '.' . $photo->getClientOriginalExtension();
+        Image::make($photo)->resize(300, 300)->save('upload/produk/' . $genNama);
+        $save_url = 'upload/produk/' . $genNama;
 
         if ($request->file('sertifikasi_haki')) {
             $sertifikasi_haki = $request->file('sertifikasi_haki');
@@ -108,7 +115,7 @@ class ProdukController extends Controller
         $dId = decrypt($id);
         $show = Produk::findOrFail($dId);
         $komentars = Komentar::where('produk_id', $dId)->get();
-        return view('admin.produk.produk-detail', compact('show','komentars'));
+        return view('admin.produk.produk-detail', compact('show', 'komentars'));
     }
 
     /**
@@ -209,7 +216,7 @@ class ProdukController extends Controller
         $dId = decrypt($id);
         $destroy = Produk::findOrFail($dId);
 
-        if($destroy->status == 1 || $destroy->status == 2){
+        if ($destroy->status == 1 || $destroy->status == 2) {
             $destroy->update([
                 'status' => 0
             ]);

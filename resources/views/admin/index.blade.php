@@ -102,7 +102,7 @@
                     <div class="card radius-10 bg-gradient-deepblue">
                         <div class="card-body">
                             <div class="d-flex align-items-center">
-                                <h5 class="mb-0 text-white">{{ $komentars == 0 ? 0 : $komentars->count() }}</h5>
+                                <h5 class="mb-0 text-white">{{ $komentars->count() == 0 ? 0 : $komentars->count() }}</h5>
                                 <div class="ms-auto">
                                     <i class='bx bx-message fs-3 text-white'></i>
                                 </div>

@@ -29,6 +29,9 @@ class ListDinas extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'photo' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+        ]);
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'username' => 'nullable|string|max:255',
